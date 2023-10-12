@@ -26,7 +26,7 @@
 import { ref } from 'vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faTrashCan, faPenToSquare } from '@fortawesome/free-solid-svg-icons'
-import EditTaskModal from '../EditTaskModal.vue'
+import EditTaskModal from '../modal/EditTaskModal.vue'
 const { activeTask, module, content, duration } = defineProps([
   'activeTask',
   'id',

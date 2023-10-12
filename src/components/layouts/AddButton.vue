@@ -12,7 +12,7 @@
 <script setup>
 import { ref } from 'vue'
 import BaseButton from '../../UI/BaseButton.vue'
-import AddTaskModal from '../AddTaskModal.vue'
+import AddTaskModal from '../modal/AddTaskModal.vue'
 
 const showModal = ref(false)
 const isClickAddTask = ref(false)
