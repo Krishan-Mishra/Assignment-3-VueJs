@@ -1,19 +1,19 @@
 <template>
   <div class="modal" @click="toggleModal">
     <div class="modal-content" @click.stop>
-      <h2>Add Task</h2>
-      <form @submit.prevent="handleSubmit">
+      <h2>Edit Task</h2>
+      <form @submit.prevent="updateSubmit">
         <div class="form-group">
           <label for="module">Module:</label>
-          <input type="text" id="module" v-model="module" required />
+          <input type="text" id="module" v-model="localModule" required />
         </div>
         <div class="form-group">
           <label for="content">Content:</label>
-          <textarea id="content" v-model="content" rows="4" required></textarea>
+          <textarea id="content" rows="4" v-model="localContent" required></textarea>
         </div>
         <div class="form-group">
           <label for="duration">Duration (in days):</label>
-          <input type="number" id="duration" v-model="duration" required />
+          <input type="number" id="duration" v-model="localDuration" required />
         </div>
         <div class="form-group">
           <button type="submit">Submit</button>
@@ -24,18 +24,17 @@
 </template>
 
 <script setup>
-import { ref, inject } from 'vue'
+import { ref } from 'vue'
 
-const addTaskfunc = inject('addTaskfunc')
+const emit = defineEmits(['toggleModal', 'updateTaskValue'])
+const { module, content, duration } = defineProps(['module', 'content', 'duration'])
 
-const { isClickAddTask } = defineProps(['isClickAddTask'])
-const emit = defineEmits(['toggleModal'])
-const module = ref(null)
-const content = ref(null)
-const duration = ref(0)
+const localModule = ref(module)
+const localContent = ref(content)
+const localDuration = ref(duration)
 
-const handleSubmit = () => {
-  addTaskfunc(module.value, module.value, content.value, duration.value)
+const updateSubmit = () => {
+  emit('updateTaskValue', { localModule, localContent, localDuration })
   emit('toggleModal')
 }
 
