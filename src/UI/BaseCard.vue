@@ -6,7 +6,7 @@
 div {
   border-radius: 0.75rem;
   box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.9);
-  padding: 1rem;
+  padding: 0.6rem;
   margin: 2rem auto;
   max-width: 40rem;
 }

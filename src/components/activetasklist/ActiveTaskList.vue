@@ -10,6 +10,10 @@
       </header>
       <p>{{ currentContent }}</p>
       <p>Duration: {{ currentDuration }} days</p>
+      <section class="checkbox">
+        <input type="checkbox" :value="id" :id="id" @click="taskCompleted(id)" />
+        <label :for="id">Mark This Task Done </label>
+      </section>
     </base-card>
   </li>
   <edit-task-modal
@@ -23,7 +27,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { inject, ref } from 'vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faTrashCan, faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 import EditTaskModal from '../modal/EditTaskModal.vue'
@@ -35,6 +39,9 @@ const { activeTask, module, content, duration } = defineProps([
   'duration'
 ])
 
+const emit = defineEmits(['taskCompleted'])
+const addCompletedTaskFunc = inject('addCompletedTaskFunc')
+
 const currentModule = ref(module)
 const currentContent = ref(content)
 const currentDuration = ref(duration)
@@ -42,7 +49,7 @@ const currentDuration = ref(duration)
 const showModal = ref(false)
 
 const removeTask = (id) => {
-  const resIndex = activeTask.find((res) => res.id === id)
+  const resIndex = activeTask.findIndex((res) => res.id === id)
   activeTask.splice(resIndex, 1)
   localStorage.setItem('taskData', JSON.stringify(activeTask))
 }
@@ -52,7 +59,6 @@ const updateTaskValue = (updatedValue) => {
   currentModule.value = updatedValue.localModule.value
   currentContent.value = updatedValue.localContent.value
   currentDuration.value = updatedValue.localDuration.value
-  console.log('days' + currentDuration.value)
   activeTask[resIndex].id = currentModule.value
   activeTask[resIndex].module = currentModule.value
   activeTask[resIndex].content = currentContent.value
@@ -62,6 +68,17 @@ const updateTaskValue = (updatedValue) => {
 
 const toggleModal = () => {
   showModal.value = !showModal.value
+}
+
+const taskCompleted = (id) => {
+  const resIndex = activeTask.findIndex((res) => res.id === id)
+  const completedTaskMoudle = activeTask[resIndex].module
+  const completedTaskContent = activeTask[resIndex].content
+  const completedTaskDuration = activeTask[resIndex].duration
+  addCompletedTaskFunc(id, completedTaskMoudle, completedTaskContent, completedTaskDuration)
+  setTimeout(() => {
+    removeTask(id)
+  }, 1200)
 }
 </script>
 
@@ -90,5 +107,13 @@ p {
 .delete:hover,
 .edit:hover {
   color: #5d085d;
+}
+
+.checkbox {
+  display: flex;
+  justify-content: end;
+}
+.checkbox input {
+  margin-right: 0.2rem;
 }
 </style>

@@ -1,21 +1,21 @@
 <template>
   <ul>
-    <active-task-list
-      v-for="task in activeTask"
-      :activeTask="activeTask"
+    <completed-task-list
+      v-for="task in completedTask"
+      :completedTask="completedTask"
       :key="task.id"
       :id="task.id"
       :module="task.module"
       :content="task.content"
       :duration="task.duration"
-    ></active-task-list>
+    ></completed-task-list>
   </ul>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import ActiveTaskList from './ActiveTaskList.vue'
-const { activeTask } = defineProps(['activeTask'])
+import { ref, onMounted } from 'vue'
+import CompletedTaskList from './CompletedTaskList.vue'
+const { completedTask } = defineProps(['completedTask'])
 </script>
 
 <style scoped>
